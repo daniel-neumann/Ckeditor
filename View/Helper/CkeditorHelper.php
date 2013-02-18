@@ -43,8 +43,10 @@ class CkeditorHelper extends AppHelper {
  * @return void
  */
 	public function beforeRender($viewFile) {
-		if (is_array(Configure::read('Ckeditor.actions'))) {
-			$this->actions = Hash::merge($this->actions, Configure::read('Ckeditor.actions'));
+		$this->Html->script('/ckeditor/js/wysiwyg', array('inline' => false));
+
+		if (is_array(Configure::read('Wysiwyg.actions'))) {
+			$this->actions = Hash::merge($this->actions, Configure::read('Wysiwyg.actions'));
 		}
 		$action = Inflector::camelize($this->params['controller']) . '/' . $this->params['action'];
 		if (Configure::read('Writing.wysiwyg') && isset($this->actions[$action])) {
@@ -52,12 +54,12 @@ class CkeditorHelper extends AppHelper {
 				'inline' => false,
 			));
 			
-			$ckeditorActions = Configure::read('Ckeditor.actions');
+			$ckeditorActions = Configure::read('Wysiwyg.actions');
 			if (isset($ckeditorActions[$action])) {
 				$actionItems = $ckeditorActions[$action];
 				$out = '$(document).ready(function() {';
 				foreach ($actionItems as $actionItem) {
-					$out .= "CKEDITOR.replace('" . $actionItem['elements'] . "');";
+					$out .= "CKEDITOR.replace('" . $actionItem['elements'] . "', {filebrowserBrowseUrl: Croogo.Wysiwyg.attachmentsPath, filebrowserImageBrowseUrl: Croogo.Wysiwyg.attachmentsPath});";
 				}
 				$out .= '});';
 				$this->Html->scriptBLock($out, array(
