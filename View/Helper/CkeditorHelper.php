@@ -53,7 +53,7 @@ class CkeditorHelper extends AppHelper {
 			$this->Html->script('/ckeditor/js/ckeditor', array(
 				'inline' => false,
 			));
-			
+
 			$ckeditorActions = Configure::read('Wysiwyg.actions');
 			if (isset($ckeditorActions[$action])) {
 				$actionItems = $ckeditorActions[$action];
