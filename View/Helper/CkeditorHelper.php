@@ -55,17 +55,21 @@ class CkeditorHelper extends AppHelper {
 			));
 
 			$ckeditorActions = Configure::read('Wysiwyg.actions');
-			if (isset($ckeditorActions[$action])) {
-				$actionItems = $ckeditorActions[$action];
-				$out = '$(document).ready(function() {';
-				foreach ($actionItems as $actionItem) {
-					$out .= "CKEDITOR.replace('" . $actionItem['elements'] . "', {filebrowserBrowseUrl: Croogo.Wysiwyg.attachmentsPath, filebrowserImageBrowseUrl: Croogo.Wysiwyg.attachmentsPath});";
-				}
-				$out .= '});';
-				$this->Html->scriptBLock($out, array(
-					'inline' => false,
-				));
+			if (!isset($ckeditorActions[$action])) {
+				return;
 			}
+			$actionItems = $ckeditorActions[$action];
+			$out = null;
+			foreach ($actionItems as $actionItem) {
+				$element = $actionItem['elements'];
+				unset($actionItem['elements']);
+				$config = empty($actionItem) ? '{}' : $this->Js->object($actionItem);
+				$out .= sprintf(
+					'Croogo.Wysiwyg.Ckeditor.setup("%s", %s);',
+					$element, $config
+				);
+			}
+			$this->Js->buffer($out);
 		}
 	}
 }
