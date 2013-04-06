@@ -3,13 +3,14 @@ Croogo.Wysiwyg.Ckeditor = {
 	presets: {
 
 		basic: {
+			filebrowserBrowseUrl: null,
+			filebrowserImageBrowseUrl: null,
 			toolbar: [
-				{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic' ] },
-				{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent' ] },
-				{ name: 'links', items: [ 'Link', 'Unlink' ] },
-                { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'SpecialChar' ] },
-				{ name: 'about', items: [ 'About' ] }
-			]
+				{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Format', 'Bold', 'Italic' ] },
+				{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
+				{ name: 'links', items: [ 'Link', 'Unlink', 'Image' ] }
+			],
+			removeDialogTabs: 'image:advanced;link:target;link:advanced'
 		},
 
 		standard: {
@@ -26,8 +27,8 @@ Croogo.Wysiwyg.Ckeditor = {
 				{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ], items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote' ] },
 				{ name: 'styles', items: [ 'Styles', 'Format' ] },
 				{ name: 'about', items: [ 'About' ] }
-			],
-        },
+			]
+		},
 
 		full: {
 			toolbarGroups: [
@@ -63,7 +64,9 @@ Croogo.Wysiwyg.Ckeditor = {
 			}
 			preset = Croogo.Wysiwyg.Ckeditor.presets[config.preset];
 		}
-		$.extend(defaults, config, preset);
+		$.extend(defaults, preset);
+		$.extend(defaults, config);
+		$.extend(config, defaults);
 		CKEDITOR.replace(el, config);
 	}
 
