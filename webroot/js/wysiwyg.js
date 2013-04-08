@@ -68,6 +68,9 @@ Croogo.Wysiwyg.Ckeditor = {
 		$.extend(defaults, config);
 		$.extend(config, defaults);
 		CKEDITOR.replace(el, config);
+		CKEDITOR.on('instanceLoaded', function(evt) {
+			CKEDITOR.skin.loadPart('croogo');
+		});
 	}
 
 }
