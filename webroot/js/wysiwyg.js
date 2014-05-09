@@ -77,6 +77,21 @@ Croogo.Wysiwyg.Ckeditor = {
 
 }
 
+Croogo.Wysiwyg.checkDirty = function() {
+	for (var editor in CKEDITOR.instances) {
+		if (CKEDITOR.instances[editor].checkDirty()) {
+			return true;
+		}
+	}
+	return false;
+}
+
+Croogo.Wysiwyg.resetDirty = function() {
+	for (var editor in CKEDITOR.instances) {
+		CKEDITOR.instances[editor].resetDirty();
+	}
+}
+
 Croogo.Wysiwyg.choose = function(url, title, description) {
 	var params = window.location.href.split('?')[1].split('&');
 	var paramsObj = {};
