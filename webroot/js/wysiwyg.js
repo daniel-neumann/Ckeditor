@@ -69,12 +69,28 @@ Croogo.Wysiwyg.Ckeditor = {
 		$.extend(defaults, preset);
 		$.extend(defaults, config);
 		$.extend(config, defaults);
-		CKEDITOR.replace(el, config);
+		el = $('#' + el + ':not(.no-wysiwyg)');
+		CKEDITOR.replace(el.get(0), config);
 		CKEDITOR.on('instanceLoaded', function(evt) {
 			CKEDITOR.skin.loadPart('croogo');
 		});
 	}
 
+}
+
+Croogo.Wysiwyg.checkDirty = function() {
+	for (var editor in CKEDITOR.instances) {
+		if (CKEDITOR.instances[editor].checkDirty()) {
+			return true;
+		}
+	}
+	return false;
+}
+
+Croogo.Wysiwyg.resetDirty = function() {
+	for (var editor in CKEDITOR.instances) {
+		CKEDITOR.instances[editor].resetDirty();
+	}
 }
 
 Croogo.Wysiwyg.choose = function(url, title, description) {
