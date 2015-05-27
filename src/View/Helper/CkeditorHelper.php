@@ -1,6 +1,11 @@
 <?php
 
-App::uses('AppHelper', 'View/Helper');
+namespace Croogo\Ckeditor\View\Helper;
+
+use Cake\Core\App;
+use Cake\Core\Configure;
+use Cake\Utility\Inflector;
+use Cake\View\Helper;
 
 /**
  * Ckeditor Helper
@@ -14,7 +19,7 @@ App::uses('AppHelper', 'View/Helper');
  * @license  http://www.opensource.org/licenses/mit-license.php The MIT License
  * @link     http://www.croogo.org
  */
-class CkeditorHelper extends AppHelper {
+class CkeditorHelper extends Helper {
 
 /**
  * Other helpers used by this helper
@@ -53,12 +58,28 @@ class CkeditorHelper extends AppHelper {
 				}
 			}
 		}
-		$action = Inflector::camelize($this->request->params['controller']) . '/' . $this->request->params['action'];
+
+        $pluginPath = $controller = null;
+        $namespace = 'Controller';
+        if (!empty($this->request->params['plugin'])) {
+            $pluginPath = $this->request->params['plugin'] . '.';
+        }
+        if (!empty($this->request->params['controller'])) {
+            $controller = $this->request->params['controller'];
+        }
+        if (!empty($this->request->params['prefix'])) {
+            $prefixes = array_map(
+                'Cake\Utility\Inflector::camelize',
+                explode('/', $this->request->params['prefix'])
+            );
+            $namespace .= '/' . implode('/', $prefixes);
+        }
+
+        $className = App::classname($pluginPath . $controller, $namespace, 'Controller');
+		$action = $className . '.' . $this->request->params['action'];
 		if (!empty($actions) && in_array($action, $this->actions)) {
-			$this->Html->script('/ckeditor/js/wysiwyg', array('inline' => false));
-			$this->Html->script('/ckeditor/js/ckeditor', array(
-				'inline' => false,
-			));
+			$this->Html->script('Croogo/Ckeditor.wysiwyg', ['block' => true]);
+			$this->Html->script('Croogo/Ckeditor.ckeditor', ['block' => true]);
 
 			$ckeditorActions = Configure::read('Wysiwyg.actions');
 			if (!isset($ckeditorActions[$action])) {
@@ -75,7 +96,7 @@ class CkeditorHelper extends AppHelper {
 					$element, $config
 				);
 			}
-			$this->Js->buffer($out);
+			$this->Html->scriptBlock($out, ['block' => 'scriptBottom']);
 		}
 	}
 }

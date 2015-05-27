@@ -1,6 +1,10 @@
 <?php
 
-App::uses('CakeEventListener', 'Event');
+namespace Croogo\Ckeditor\Event;
+
+use Cake\Core\Configure;
+use Cake\Event\EventListenerInterface;
+use Croogo\Croogo\Croogo;
 
 /**
  * Ckeditor Event Handler
@@ -10,7 +14,7 @@ App::uses('CakeEventListener', 'Event');
  * @license  http://www.opensource.org/licenses/mit-license.php The MIT License
  * @link     http://www.croogo.org
  */
-class CkeditorEventHandler implements CakeEventListener {
+class CkeditorEventHandler implements EventListenerInterface {
 
 /**
  * implementedEvents
@@ -33,8 +37,8 @@ class CkeditorEventHandler implements CakeEventListener {
 			if (is_numeric($action)) {
 				$action = $settings;
 			}
-			$actionE = explode('/', $action);
-			Croogo::hookHelper($actionE['0'], 'Ckeditor.Ckeditor');
+			list($controllerName, $action) = explode('.', $action);
+			Croogo::hookHelper($controllerName, 'Croogo/Ckeditor.Ckeditor');
 		}
 	}
 

@@ -2,7 +2,7 @@
 
 $config = array(
 	'EventHandlers' => array(
-		'Ckeditor.CkeditorEventHandler' => array(
+		'Croogo/Ckeditor.CkeditorEventHandler' => array(
 			'priority' => 20,
 		),
 	),
