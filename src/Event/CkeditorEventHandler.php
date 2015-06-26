@@ -4,7 +4,7 @@ namespace Croogo\Ckeditor\Event;
 
 use Cake\Core\Configure;
 use Cake\Event\EventListenerInterface;
-use Croogo\Croogo\Croogo;
+use Croogo\Core\Croogo;
 
 /**
  * Ckeditor Event Handler
