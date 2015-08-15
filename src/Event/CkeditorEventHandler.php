@@ -33,13 +33,13 @@ class CkeditorEventHandler implements EventListenerInterface {
  * Hook helper
  */
 	public function onBootstrapComplete($event) {
-		foreach ((array)Configure::read('Wysiwyg.actions') as $action => $settings) {
-			if (is_numeric($action)) {
-				$action = $settings;
-			}
-			list($controllerName, $action) = explode('.', $action);
-			Croogo::hookHelper($controllerName, 'Croogo/Ckeditor.Ckeditor');
-		}
+//		foreach ((array)Configure::read('Wysiwyg.actions') as $action => $settings) {
+//			if (is_numeric($action)) {
+//				$action = $settings;
+//			}
+//			list($controllerName, $action) = explode('.', $action);
+//			Croogo::hookHelper($controllerName, 'Croogo/Ckeditor.Ckeditor');
+//		}
 	}
 
 }
