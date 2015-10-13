@@ -1,5 +1,5 @@
 {
-	"name": "croogo/ckeditor",
+	"name": "daniel-neumann/ckeditor-sme",
 	"type": "cakephp-plugin",
 	"description": "Integrate Ckeditor with Croogo",
 	"homepage": "http://github.com/croogo/Ckeditor",
